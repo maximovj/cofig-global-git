@@ -1,0 +1,82 @@
+# This is Git's per-user configuration file.
+
+[user]
+# Please adapt and uncomment the following lines:
+  name = your_username
+  email  = your_email
+
+[alias]
+  # Alias basic
+  l = !git log -n 5
+  ll = !git log --all -n 5
+  s = !git status && git branch -vv && git stash list -n 5 
+  aliasg = !git config --get-regexp --global alias
+  aliasl = !git config --get-regexp --local alias
+  store = !git add . && git stash push --include-untracked
+  flog = !git log --follow
+  lookup = !git grep -i -E 
+  save = !git add . && git commit 
+  sw = !git switch
+  br = !git branch -vv
+
+  # * * * * * * Alias Advance !! WARNING !! 
+  # pco <remote> <branch-name> (create branch local and remote)
+  psw-br = "!f() { git switch -c $2 && git push -u $1 $2 || echo \"Lo siento, la rama ya existe en el repositorio. :( \"; }; f"
+  # pbd <remote> <rama-rename> <branch-main> (delete branch local and remote)
+  pdel-br = "!f() { git push $1 $2 --delete && git switch $3 && git branch -D $2; }; f" 
+  # pbr <remote> <branch-old> <branch-new-name> (rename branch local and remote)
+  pren-br = "!f() { git switch -c $3 && git push -u $1 $3 && git push $1 $2 --delete && git branch -D $2; }; f"
+  # psync <remote> <branch-main> (download changes remote)
+  psync = "!f() { git fetch $1 && git switch $2 && git merge $1/$2;  }; f"
+  # pup-br <remote> <branch-name> (upload changes local)
+  pup-br = "!f() { git push -u $1 $2; }; f"
+  # pup <remote> <branch-main> (push all branches using filter grep )
+  pup = "!f() { git switch $2 && git branch | grep -Ei \"bugfix|feature|hotfix|issue|docs|refactor|release|chore\" | awk '{print $1}' | xargs -r git push -u $1 && git branch -vv; }; f"
+  # pcl <remote> <branch-main> (delete all branches using filter grep)
+  pcl = "!f() { git switch $2 && git branch | grep -Ei \"bugfix|feature|hotfix|issue|docs|refactor|release|chore\" | awk '{print $1}' | xargs -r git branch -d $1; }; f"
+  # pcr <remote> <branch-main> (delte all branches does not exists from repository remote)
+  pcr = "!f() { git switch $2 && git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d ; }; f"
+  # pscan <remote> (check out for changes from reposoitory remote)
+  pscan = "!f() { git remote -v && git remote show $1 && git branch -r; }; f"
+  # psave <subjet> <message>
+  psave = "!f() { git add . && git rev-parse --abbrev-ref HEAD | awk '{print $1}' | xargs -r -I{} git commit -m \"{} | $1\" -m \"$2\" && git commit --amend -e; }; f"
+  confg = !git config --global -e
+  confl = !git config --local -e
+  ctlz = !git reset HEAD~1 --soft
+  ctly = !sh -c 'git commit -c ORIG_HEAD && git reset --hard HEAD@{1}'
+
+  bfor = !git for-each-ref --sort='-authordate:iso8601' refs/heads/ --format='%(HEAD) %(authordate:short) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) / %(contents:subject) (%(color:green)%(committerdate:relative)%(color:reset))' 
+
+  query = !git log -n 5 --all --stat --color=always --pretty=format:'%n%C(auto)%+d%Creset %nCommit: %C(bold yellow)%h%Creset %C(bold blue)%cn%Creset <%ce> %nDate: %Creset%cd (%Cgreen%cr%Creset) %n%C(bold yellow)%s%Creset %n %C(bold black)%b%Creset %n%C(bold red)Files:%n'
+
+  lg = !git log --decorate --graph -n 5 --pretty=tformat:'%C(dim white)%m%C(dim green)%h %C(dim cyan)%cd %C(yellow)%<(16,trunc)%aN %C(reset)%s%C(auto)%w(0,0,9)%+d%C(reset) (%Cgreen%cr%Creset)' --decorate --graph
+
+  see = !git show --stat --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s (%Cgreen%cr%Creset) %C(bold blue)<%an>%Creset' && git status 
+
+  resumen = !git log --oneline --all --date=relative -n 5 --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s (%Cgreen%cr%Creset) %C(bold blue)<%an>%Creset'
+
+#[credential "https://github.com"]
+#  username = your_email
+
+#[credential "https://gitlab.com"]
+#  username = your_email
+
+[credential]
+    helper = store
+    interactive = auto
+    modalPrompt= false
+    tokenDuration = 1
+
+[core]
+    editor = vim
+
+[gui]
+    encoding = utf-8
+
+[pull]
+   ff = only
+[http]
+    version = HTTP/1.1
+    postBuffer = 100000000
+[init]
+    defaultBranch = master
