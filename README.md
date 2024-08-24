@@ -36,7 +36,7 @@ Establecer nombre de usuario y correo electrónico asociando a cuenta de GitHub 
 
 **\*\*Advertencia**** No utilice ningún comando, sin previos conocimientos sobre git.
 
-Los comandos *# Alias basic* son comandos que no manipula los commits y el flujo de trabajo dentro del repositorio, por lo que representa un peligro al momento de usarlos.
+Los comandos *# Alias basic* son comandos que no manipula los commits y el flujo de trabajo dentro del repositorio, por lo que no representa un peligro al momento de usarlos.
 
 Los comandos *# Alias Advance* son comandos avanzados que sirve para  manipular los commits y el flujo de trabajo dentro del repositorio, por lo que se recomienda utilizarlos con precaución.
 
